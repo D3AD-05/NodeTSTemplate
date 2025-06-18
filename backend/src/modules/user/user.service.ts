@@ -48,13 +48,18 @@ export class UserService {
     }
   }
 
-  public async updateUser(id: string, userData: Partial<User>): Promise<User> {
+  public async updateUser(id: number, userData: Partial<User>): Promise<User> {
     const { data: existingUser, error: findError } = await supabase
       .from("users")
       .select()
-      .eq("id", id)
+      .eq("userId", id)
       .single();
 
+    console.log(
+      "🚀 ~ :59 ~ UserService ~ updateUser ~ existingUser:",
+      existingUser
+    );
+    console.log("🚀 ~ :63 ~ UserService ~ updateUser ~ findError:", findError);
     if (findError || !existingUser) {
       throw new Error("User not found");
     }
@@ -68,7 +73,7 @@ export class UserService {
       const { data, error } = await supabase
         .from("users")
         .update(userData)
-        .eq("id", id)
+        .eq("userId", id)
         .select()
         .single();
 

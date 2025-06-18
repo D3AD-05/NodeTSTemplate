@@ -48,7 +48,10 @@ export class UserController {
 
   public updateUser = async (req: Request, res: Response): Promise<void> => {
     try {
+      const id = parseInt(req.params.id);
       const userData = req.body;
+
+      const result = await this.userService.updateUser(id, userData);
       res.status(200).json({
         success: true,
         message: "User updated successfully",
